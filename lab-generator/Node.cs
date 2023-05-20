@@ -2,7 +2,7 @@
 {
     static class Constants
     {
-        public const int SSL = 20; // Square length
+        public const int SSL = 20; // Square side length
         public const int StartingComplexity = 15;
     }
     internal class Node
