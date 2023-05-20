@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace lab_generator
 {
@@ -17,7 +10,7 @@ namespace lab_generator
         public Form1()
         {
             InitializeComponent();
- 
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -30,21 +23,21 @@ namespace lab_generator
             // Creating full grid
             for (int row = 0; row < Program.Maze.Size; row++)
                 for (int column = 0; column < Program.Maze.Size; column++)
-                    g.DrawRectangle(blackPen, column * 40, row * 40, 40, 40);
+                    g.DrawRectangle(blackPen, column * Constants.SSL, row * Constants.SSL, Constants.SSL, Constants.SSL);
 
-            // Deleting walls
+            // Deleting walls by drawing white lines at corresponding wall
             for (int row = 0; row < Program.Maze.Size; row++)
                 for (int column = 0; column < Program.Maze.Size; column++)
                 {
                     Node current = Program.Maze.Container[row, column];
                     if (current.Up == 0)
-                        g.DrawLine(whitePen, new Point(column * 40 + 1, row * 40), new Point(column * 40 + 39, row * 40));
+                        g.DrawLine(whitePen, new Point(column * Constants.SSL + 1, row * Constants.SSL), new Point(column * Constants.SSL + Constants.SSL - 1, row * Constants.SSL));
                     if (current.Right == 0)
-                        g.DrawLine(whitePen, new Point(column * 40 + 40, row * 40 + 1), new Point(column * 40 + 40, row * 40 + 39));
+                        g.DrawLine(whitePen, new Point(column * Constants.SSL + Constants.SSL, row * Constants.SSL + 1), new Point(column * Constants.SSL + Constants.SSL, row * Constants.SSL + Constants.SSL - 1));
                     if (current.Left == 0)
-                        g.DrawLine(whitePen, new Point(column * 40, row * 40), new Point(column * 40, row * 40 + 39));
+                        g.DrawLine(whitePen, new Point(column * Constants.SSL, row * Constants.SSL + 1), new Point(column * Constants.SSL, row * Constants.SSL + Constants.SSL - 1));
                     if (current.Down == 0)
-                        g.DrawLine(whitePen, new Point(column * 40 + 1, row * 40 + 40), new Point(column * 40 + 39, row * 40 + 40));
+                        g.DrawLine(whitePen, new Point(column * Constants.SSL + 1, row * Constants.SSL + Constants.SSL), new Point(column * Constants.SSL + Constants.SSL - 1, row * Constants.SSL + Constants.SSL));
                 }
 
 
@@ -58,25 +51,16 @@ namespace lab_generator
             panel1.Refresh();
 
         }
-            // Added for displaying console as well as WF app
-            private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            AllocConsole();
-        }
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
 
-        // Drawing Speed
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
-        {
-            Program.DrawingSpeed = (int) numericUpDown2.Value;
         }
 
         // Complexity
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Program.Complexity = (int)numericUpDown2.Value;
+            Program.Complexity = (int)numericUpDown1.Value;
         }
     }
+
 }

@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lab_generator
 {
@@ -16,7 +9,7 @@ namespace lab_generator
         public readonly int Size;
         public Node[,] Container { get; }
 
-        public Maze(int size) 
+        public Maze(int size)
         {
             this.Size = size;
             this.Container = new Node[size, size];
@@ -25,32 +18,21 @@ namespace lab_generator
                 for (int col = 0; col < size; col++)
                     Container[row, col] = new Node();
             // Setting peripheral edges to permanent
-            for (int i = 0; i < size; i++) 
+            for (int i = 0; i < size; i++)
             {
-                Container[0, i].SetWallPermanent('u'); 
+                Container[0, i].SetWallPermanent('u');
                 Container[i, 0].SetWallPermanent('l');
                 Container[i, size - 1].SetWallPermanent('r');
                 Container[size - 1, i].SetWallPermanent('d');
             }
 
         }
-    public void ShowMaze()
-        {
-            for (int row = 0; row < this.Size; row++)
-                for (int column = 0; column < this.Size; column++)
-                {
-                    Console.WriteLine(Container[row, column].Up);
-                    Console.WriteLine(Container[row, column].Right);
-                    Console.WriteLine(Container[row, column].Down);
-                    Console.WriteLine(Container[row, column].Left);
-                }
-        }
         public List<(int, int)> GetNeighbours(int row, int column)
         {
             // There are 9 separate cases in location of cell
             if (row == 0 && column == 0) // up-left 
                 return new List<(int, int)> { (1, 0), (0, 1) };
-            else if (row == 0 && column != 0 && column != Size-1) // up-mid
+            else if (row == 0 && column != 0 && column != Size - 1) // up-mid
                 return new List<(int, int)> { (row, column - 1), (row, column + 1), (row + 1, column) };
             else if (row == 0 && column == Size - 1) // up-right
                 return new List<(int, int)> { (row, column - 1), (row + 1, column) };
@@ -70,16 +52,16 @@ namespace lab_generator
 
         public List<(int, int)> GetUnvisitedNeighbours(List<(int, int)> listOfNeighbours)
         {
-            List <(int, int)> unvisitedOnes = new List<(int, int)> ();
+            List<(int, int)> unvisitedOnes = new List<(int, int)>();
             foreach ((int, int) tuple in listOfNeighbours)
-                if ( !Container[tuple.Item1, tuple.Item2].Visited )
+                if (!Container[tuple.Item1, tuple.Item2].Visited)
                     unvisitedOnes.Add(tuple);
             return unvisitedOnes;
         }
-    private (int, int, char) ChooseRandomStartingNode()
+        private (int, int, char) ChooseRandomStartingNode()
         {
             string[] chooseFrom = { "up", "right", "down", "left" };
-            switch ( chooseFrom[rand.Next(chooseFrom.Length)] )
+            switch (chooseFrom[rand.Next(chooseFrom.Length)])
             {
                 case "up":
                     return (0, rand.Next(Size), 'u'); ;
@@ -97,30 +79,21 @@ namespace lab_generator
         {
             if (cellOne.Item1 == cellTwo.Item1) // we are on the same row
             {
-                if (cellOne.Item2 < cellTwo.Item2 ) // wall to remove is on the right
-                {
+                if (cellOne.Item2 < cellTwo.Item2) // the wall to remove is on the right
                     this.Container[cellOne.Item1, cellOne.Item2].DeleteWall('r');
-                }
                 else
-                {
                     this.Container[cellOne.Item1, cellOne.Item2].DeleteWall('l');
-                }
             }
             else // we are in the same column
             {
-                if (cellOne.Item1 < cellTwo.Item1)
-                {
+                if (cellOne.Item1 < cellTwo.Item1) // the wall to remove is beneath
                     this.Container[cellOne.Item1, cellOne.Item2].DeleteWall('d');
-                }
-
                 else
-                {
                     this.Container[cellOne.Item1, cellOne.Item2].DeleteWall('u');
-                }
             }
         }
-    private (int, int, char) ChooseExit( (int, int, char) EntranceNode)
-        {
+        private (int, int, char) ChooseExit((int, int, char) EntranceNode)
+        { // Choosing exit on the opposite wall to the entrance
             switch (EntranceNode.Item3)
             {
                 case 'u':
@@ -131,14 +104,13 @@ namespace lab_generator
                     return (rand.Next(Size), 0, 'l');
                 case 'l':
                     return (rand.Next(Size), Size - 1, 'r');
-                default: 
+                default:
                     return (0, 0, '0');
             }
         }
 
-    public void StartDFS() // iterative version of DFS search 
-        {
-            // Choosing the start and the exit point, deleting permanent edges
+        public void StartDFS() 
+        {   // Iterative version of DFS search
             (int, int, char) startingNode = ChooseRandomStartingNode();
             (int, int, char) exitNode = ChooseExit(startingNode);
             Container[startingNode.Item1, startingNode.Item2].MarkVisited();

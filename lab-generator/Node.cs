@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace lab_generator
+﻿namespace lab_generator
 {
+    static class Constants
+    {
+        public const int SSL = 20;
+    }
     internal class Node
     {
         // 0 - no edge, 1 removable edge, 2 permanent edge
@@ -51,11 +49,11 @@ namespace lab_generator
                 case 'd':
                     this.Down = 2;
                     break;
-                default: 
+                default:
                     break;
             }
         }
-        public void DeleteWall (char wallPosition)
+        public void DeleteWall(char wallPosition)
         {
             switch (wallPosition)
             {
@@ -75,7 +73,7 @@ namespace lab_generator
                     if (this.Down != 2)
                         this.Down = 0;
                     break;
-                default: 
+                default:
                     break;
             }
         }
