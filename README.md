@@ -5,4 +5,4 @@ Turns out it's a nice language though.
 It generates a simple maze using a DFS-based algorithms, translated into cell logic. 
 User can choose complexity (number of cells) to fit their intellectual capabilities (mine fall short after complexity set to 10).
 
-![I've messed up apparently](https://github.com/Pug0r/lab-generator/images/final_result.png?raw=true)
+![I've messed up apparently](https://github.com/Pug0r/lab-generator/blob/master/images/final_result.png?raw=true)
