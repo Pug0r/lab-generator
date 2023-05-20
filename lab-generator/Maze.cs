@@ -17,14 +17,6 @@ namespace lab_generator
             for (int row = 0; row < size; row++)
                 for (int col = 0; col < size; col++)
                     Container[row, col] = new Node();
-            // Setting peripheral edges to permanent
-            for (int i = 0; i < size; i++)
-            {
-                Container[0, i].SetWallPermanent('u');
-                Container[i, 0].SetWallPermanent('l');
-                Container[i, size - 1].SetWallPermanent('r');
-                Container[size - 1, i].SetWallPermanent('d');
-            }
 
         }
         public List<(int, int)> GetNeighbours(int row, int column)
@@ -54,7 +46,7 @@ namespace lab_generator
         {
             List<(int, int)> unvisitedOnes = new List<(int, int)>();
             foreach ((int, int) tuple in listOfNeighbours)
-                if (!Container[tuple.Item1, tuple.Item2].Visited)
+                if (!Container[tuple.Item1, tuple.Item2].IsVisited)
                     unvisitedOnes.Add(tuple);
             return unvisitedOnes;
         }
@@ -114,8 +106,8 @@ namespace lab_generator
             (int, int, char) startingNode = ChooseRandomStartingNode();
             (int, int, char) exitNode = ChooseExit(startingNode);
             Container[startingNode.Item1, startingNode.Item2].MarkVisited();
-            Container[startingNode.Item1, startingNode.Item2].RemovePermanent(startingNode.Item3);
-            Container[exitNode.Item1, exitNode.Item2].RemovePermanent(exitNode.Item3);
+            Container[startingNode.Item1, startingNode.Item2].DeleteWall(startingNode.Item3);
+            Container[exitNode.Item1, exitNode.Item2].DeleteWall(exitNode.Item3);
 
             Stack<(int, int)> toProcess = new Stack<(int, int)>();
             toProcess.Push((startingNode.Item1, startingNode.Item2));

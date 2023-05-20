@@ -25,23 +25,20 @@ namespace lab_generator
                 for (int column = 0; column < Program.Maze.Size; column++)
                     g.DrawRectangle(blackPen, column * Constants.SSL, row * Constants.SSL, Constants.SSL, Constants.SSL);
 
-            // Deleting walls by drawing white lines at corresponding wall
+            // Deleting walls by drawing white lines on front of it
             for (int row = 0; row < Program.Maze.Size; row++)
                 for (int column = 0; column < Program.Maze.Size; column++)
                 {
                     Node current = Program.Maze.Container[row, column];
-                    if (current.Up == 0)
+                    if (!current.UpWall)
                         g.DrawLine(whitePen, new Point(column * Constants.SSL + 1, row * Constants.SSL), new Point(column * Constants.SSL + Constants.SSL - 1, row * Constants.SSL));
-                    if (current.Right == 0)
+                    if (!current.RightWall)
                         g.DrawLine(whitePen, new Point(column * Constants.SSL + Constants.SSL, row * Constants.SSL + 1), new Point(column * Constants.SSL + Constants.SSL, row * Constants.SSL + Constants.SSL - 1));
-                    if (current.Left == 0)
+                    if (!current.LeftWall)
                         g.DrawLine(whitePen, new Point(column * Constants.SSL, row * Constants.SSL + 1), new Point(column * Constants.SSL, row * Constants.SSL + Constants.SSL - 1));
-                    if (current.Down == 0)
+                    if (!current.DownWall)
                         g.DrawLine(whitePen, new Point(column * Constants.SSL + 1, row * Constants.SSL + Constants.SSL), new Point(column * Constants.SSL + Constants.SSL - 1, row * Constants.SSL + Constants.SSL));
                 }
-
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)

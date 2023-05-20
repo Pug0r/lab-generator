@@ -9,7 +9,7 @@ namespace lab_generator
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        public static int Complexity = 15;
+        public static int Complexity = Constants.StartingComplexity;
         public static Maze Maze = new Maze(Complexity);
         public static Graphics canvas;
 
