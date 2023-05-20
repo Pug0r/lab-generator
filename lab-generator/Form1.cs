@@ -40,11 +40,11 @@ namespace lab_generator
                     if (current.Up == 0)
                         g.DrawLine(whitePen, new Point(column * 40 + 1, row * 40), new Point(column * 40 + 39, row * 40));
                     if (current.Right == 0)
-                        g.DrawLine(whitePen, new Point(column * 40 + 40, row * 40), new Point(column * 40 + 40, row * 40 - 39));
+                        g.DrawLine(whitePen, new Point(column * 40 + 40, row * 40 + 1), new Point(column * 40 + 40, row * 40 + 39));
                     if (current.Left == 0)
-                        g.DrawLine(whitePen, new Point(column * 40, row * 40), new Point(column * 40, row * 40 - 39));
+                        g.DrawLine(whitePen, new Point(column * 40, row * 40), new Point(column * 40, row * 40 + 39));
                     if (current.Down == 0)
-                        g.DrawLine(whitePen, new Point(column * 40 + 1, row * 40 - 40), new Point(column * 40 + 39, row * 40 - 40));
+                        g.DrawLine(whitePen, new Point(column * 40 + 1, row * 40 + 40), new Point(column * 40 + 39, row * 40 + 40));
                 }
 
 
@@ -53,11 +53,10 @@ namespace lab_generator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            foreach ((int, int) tuple in Program.Maze.GetNeighbours(0, 1))
-                Console.WriteLine(tuple.ToString());
-            Program.Maze.Container[0, 0].Up = 0;
+            Program.Maze = new Maze(Program.Complexity);
+            Program.Maze.StartDFS();
             panel1.Refresh();
-            Console.WriteLine(Program.Maze.ChooseRandomStartingNode());
+
         }
             // Added for displaying console as well as WF app
             private void Form1_Load(object sender, EventArgs e)
